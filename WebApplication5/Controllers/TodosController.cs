@@ -22,14 +22,21 @@ namespace WebApplication5.Controllers
         }
         // GET: Todos
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(string searchString)
+
         {
-            var userId = User.Identity.GetUserId();
+            var userId = User.Identity.GetUserId(); //lấy userid của account đang login ở hiện tại
             var todos = _context.Todos
-                .Include(t => t.Category)
-                //add category
+                .Include(t => t.Category) //add category
                 .Where(t => t.UserId == userId)
                 .ToList();   //lay thong tin tu database
+            if (!string.IsNullOrEmpty(searchString)) //nếu search string không null hoặc empty thì sẽ lọc ra
+            {
+                todos = todos
+                    .Where(t => t.Description.ToLower().Contains(searchString.ToLower())
+                                || t.Category.Description.ToLower().Contains(searchString.ToLower())
+                    ).ToList();
+            }
 
             return View(todos);
         }

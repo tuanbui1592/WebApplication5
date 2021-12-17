@@ -53,7 +53,7 @@ namespace WebApplication5.Controllers
                 var result = await UserManager.CreateAsync(user, viewModel.Password);
                 if (result.Succeeded)
                 {
-                    await UserManager.AddToRoleAsync(user.Id, Role.Manager);
+                    await UserManager.AddToRoleAsync(user.Id, Role.Manager); //sửa Role.Manager
 
 
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
